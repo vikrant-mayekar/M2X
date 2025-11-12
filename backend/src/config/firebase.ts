@@ -37,11 +37,16 @@ if (fs.existsSync(serviceAccountPath)) {
   });
   console.log("✅ Firebase initialized with environment variables");
 } else {
-  throw new Error(
-    "Firebase credentials not found! Please provide either:\n" +
-      "1. Service account JSON file at backend/m2x-project-firebase-adminsdk-fbsvc-5570472ed8.json\n" +
-      "2. Environment variables: FIREBASE_PROJECT_ID, FIREBASE_PRIVATE_KEY, FIREBASE_CLIENT_EMAIL"
-  );
+  // Development mode - use mock Firebase for local development
+  console.log("⚠️  Running in development mode without Firebase credentials");
+  console.log("📝 To enable Firebase features, please set up Firebase credentials as described in FIREBASE_SETUP.md");
+  
+  // Create a mock app for development
+  app = initializeApp({
+    projectId: "m2x-project-dev",
+    storageBucket: "m2x-project-dev.firebasestorage.app",
+  });
+  console.log("✅ Firebase initialized in development mode (mock)");
 }
 
 // Get Firestore instance

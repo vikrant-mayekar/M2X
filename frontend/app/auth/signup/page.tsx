@@ -1,4 +1,5 @@
 import { SignupForm } from "@/components/signup-form";
+import { Users, Globe, Award, Star } from "lucide-react";
 
 export default function SignupPage() {
   return (

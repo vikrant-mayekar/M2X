@@ -2,7 +2,15 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Search, ChevronDown, Heart, MapPin } from "lucide-react";
+import {
+  Menu,
+  X,
+  Search,
+  ChevronDown,
+  Heart,
+  MapPin,
+  ChevronRight,
+} from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +21,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuLink,
+} from "@/components/ui/navigation-menu";
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,8 +36,273 @@ export function Navigation() {
   const [selectedLocation, setSelectedLocation] = useState("India");
   const [userLocation, setUserLocation] = useState<string | null>(null);
   const [locationLoading, setLocationLoading] = useState(false);
+  const [menuValue, setMenuValue] = useState<string | undefined>(undefined);
 
   const languages = ["English", "Hindi", "Tamil", "Telugu", "Bengali"];
+
+  const categories = [
+    {
+      id: "construction",
+      title: "Construction & Building Machinery",
+      shortLabel: "Construction",
+      icon: "🏗",
+      subcategories: [
+        "Excavators",
+        "Loaders",
+        "Concrete Mixers",
+        "Vibrators & Compactors",
+        "Cranes (Tower / Mobile)",
+        "Road Rollers",
+        "Asphalt Plants",
+        "Cutting Machines (Stone / Marble)",
+        "Rebar Bending / Cutting Machines",
+        "Scaffolding & Lifting Tools",
+      ],
+    },
+    {
+      id: "agriculture",
+      title: "Agriculture & Farming Equipment",
+      shortLabel: "Agriculture",
+      icon: "🚜",
+      subcategories: [
+        "Tractors",
+        "Rotavators & Tillers",
+        "Harvesters & Combine Machines",
+        "Irrigation Pumps & Sprayers",
+        "Seeders & Planters",
+        "Chaff Cutters & Feed Machines",
+        "Dairy Machines (Milking, Chilling, etc.)",
+        "Solar Agri Pumps",
+      ],
+    },
+    {
+      id: "industrial",
+      title: "Industrial Manufacturing Machinery",
+      shortLabel: "Manufacturing",
+      icon: "🏭",
+      subcategories: [
+        "Lathe Machines",
+        "Milling Machines",
+        "CNC Machines",
+        "Drilling Machines",
+        "Welding Machines",
+        "Compressors & Hydraulic Press",
+        "Tool Room Equipment",
+        "Sheet Metal & Fabrication Machines",
+        "Bending / Rolling Machines",
+      ],
+    },
+    {
+      id: "textile",
+      title: "Textile & Garment Machines",
+      shortLabel: "Textile",
+      icon: "🧵",
+      subcategories: [
+        "Stitching & Sewing Machines (Industrial)",
+        "Embroidery Machines",
+        "Cutting & Finishing Machines",
+        "Dyeing / Washing Machines",
+        "Spinning & Weaving Equipment",
+      ],
+    },
+    {
+      id: "food",
+      title: "Food & Beverage Processing",
+      shortLabel: "Food & Beverage",
+      icon: "🥫",
+      subcategories: [
+        "Flour / Atta Mills",
+        "Oil Extraction Machines",
+        "Milk Processing Units",
+        "Juice / Pulp Machines",
+        "Bakery Ovens & Mixers",
+        "Packaging & Filling Machines",
+        "Refrigeration / Cold Storage Units",
+      ],
+    },
+    {
+      id: "wood",
+      title: "Wood & Furniture Machines",
+      shortLabel: "Wood & Furniture",
+      icon: "🏠",
+      subcategories: [
+        "Panel Saw / Edge Banding",
+        "Planer / Jointer Machines",
+        "CNC Router",
+        "Drilling & Sanding Machines",
+        "Furniture Polishing Machines",
+      ],
+    },
+    {
+      id: "electronics",
+      title: "Electrical & Electronics Production",
+      shortLabel: "Electrical",
+      icon: "🔌",
+      subcategories: [
+        "PCB Making Machines",
+        "Soldering & Welding Stations",
+        "Transformer Manufacturing",
+        "Wire Winding Machines",
+        "Battery Making & Recycling Equipment",
+      ],
+    },
+    {
+      id: "chemical",
+      title: "Chemical, Pharma & Laboratory",
+      shortLabel: "Chemical & Pharma",
+      icon: "⚗",
+      subcategories: [
+        "Mixers, Reactors, Blenders",
+        "Tablet Press & Coating Machines",
+        "Lab Testing Equipment",
+        "Packaging & Filling Machines",
+        "Chemical Processing Tanks",
+        "Distillation & Filtration Units",
+      ],
+    },
+    {
+      id: "recycling",
+      title: "Recycling & Waste Management",
+      shortLabel: "Recycling",
+      icon: "♻",
+      subcategories: [
+        "Plastic Crushers",
+        "Shredders",
+        "E-Waste Processing Machines",
+        "Paper Recycling Units",
+        "Tyre Recycling Plants",
+        "Scrap Compressors & Balers",
+      ],
+    },
+    {
+      id: "tools",
+      title: "Hand Tools & Power Tools",
+      shortLabel: "Tools",
+      icon: "🧰",
+      subcategories: [
+        "Drills, Grinders, Cutters",
+        "Impact Wrenches",
+        "Welding Tools",
+        "Measurement & Testing Tools",
+        "Safety Gear",
+      ],
+    },
+    {
+      id: "automobile",
+      title: "Automobile Workshop Machines",
+      shortLabel: "Automobile",
+      icon: "🛠",
+      subcategories: [
+        "Car / Bike Washing Systems",
+        "Hydraulic Lifts & Jacks",
+        "Wheel Alignment & Balancing",
+        "Air Compressors",
+        "Denting / Painting Booths",
+        "Battery Chargers & Diagnostic Tools",
+      ],
+    },
+    {
+      id: "hvac",
+      title: "HVAC & Cooling Systems",
+      shortLabel: "HVAC",
+      icon: "🧊",
+      subcategories: [
+        "Industrial Air Conditioners",
+        "Chillers & Cooling Towers",
+        "Air Handling Units (AHU)",
+        "Duct Fabrication Tools",
+      ],
+    },
+    {
+      id: "energy",
+      title: "Energy & Power Equipment",
+      shortLabel: "Energy & Power",
+      icon: "🔋",
+      subcategories: [
+        "Solar Panels & Inverters",
+        "Diesel Generators",
+        "Electric Motors & Pumps",
+        "Transformers",
+        "Batteries & Power Backup Units",
+      ],
+    },
+    {
+      id: "material-plants",
+      title: "Construction Material Plants",
+      shortLabel: "Material Plants",
+      icon: "🧱",
+      subcategories: [
+        "Brick Making Machines",
+        "Cement Mix Plants",
+        "Stone Crushers",
+        "Asphalt & Bitumen Plants",
+      ],
+    },
+    {
+      id: "packaging",
+      title: "Packaging & Printing Machines",
+      shortLabel: "Packaging",
+      icon: "📦",
+      subcategories: [
+        "Box / Carton Making Machines",
+        "Label Printing & Cutting",
+        "Shrink Wrapping",
+        "Vacuum Packing",
+        "Inkjet / Laser Printers",
+      ],
+    },
+    {
+      id: "plastic",
+      title: "Plastic & Rubber Processing",
+      shortLabel: "Plastic & Rubber",
+      icon: "🧩",
+      subcategories: [
+        "Injection Moulding",
+        "Blow Moulding",
+        "Extrusion Machines",
+        "Rubber Mixing & Cutting",
+      ],
+    },
+    {
+      id: "marine",
+      title: "Marine & Heavy Transport",
+      shortLabel: "Marine",
+      icon: "⚓",
+      subcategories: [
+        "Boat Engines",
+        "Industrial Pumps",
+        "Container Handling Cranes",
+        "Forklifts & Loaders",
+      ],
+    },
+    {
+      id: "office",
+      title: "Office / Commercial Machines",
+      shortLabel: "Office & Commercial",
+      icon: "🏢",
+      subcategories: [
+        "Industrial Printers",
+        "Binding & Cutting",
+        "Shredders",
+        "Cleaning Equipment (Vacuum, Floor Machines)",
+      ],
+    },
+    {
+      id: "spares",
+      title: "Spare Parts & Components",
+      shortLabel: "Spare Parts",
+      icon: "🧾",
+      subcategories: [
+        "Motors",
+        "Bearings",
+        "Valves & Fittings",
+        "Conveyor Belts",
+        "Hydraulic & Pneumatic Parts",
+      ],
+    },
+  ];
+
+  const quickCategories = categories.slice(0, 6);
 
   // Function to get user's current location
   const getCurrentLocation = () => {
@@ -68,6 +349,14 @@ export function Navigation() {
     );
   };
 
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log("Search:", {
+      query: searchQuery,
+      location: selectedLocation,
+    });
+  };
+
   // Get location on component mount
   useEffect(() => {
     getCurrentLocation();
@@ -93,10 +382,14 @@ export function Navigation() {
             </Link>
 
             {/* Search Bar Group */}
-            <div className="hidden md:flex items-center flex-1 max-w-2xl">
+            <form
+              onSubmit={handleSearch}
+              className="hidden md:flex items-center flex-1 max-w-3xl"
+            >
               {/* Location Display */}
               <div className="relative">
                 <button
+                  type="button"
                   onClick={getCurrentLocation}
                   className="flex items-center gap-2 px-3 py-2 h-10 border border-gray-300 rounded-l-md bg-white hover:bg-gray-50 transition-colors"
                   title="Get current location"
@@ -114,7 +407,25 @@ export function Navigation() {
                   </span>
                 </button>
               </div>
-            </div>
+
+              {/* Search Input */}
+              <div className="flex flex-1 items-center">
+                <Input
+                  type="text"
+                  placeholder='Search "Machines"'
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="h-10 border-x-0 border-gray-300 rounded-none bg-white focus-visible:ring-0 focus-visible:border-blue-600"
+                />
+                <Button
+                  type="submit"
+                  className="h-10 px-4 rounded-l-none rounded-r-md bg-black hover:bg-gray-800 text-white font-semibold flex items-center gap-2"
+                >
+                  <Search className="w-4 h-4" />
+                  Search
+                </Button>
+              </div>
+            </form>
           </div>
 
           {/* Right Side - Language, Favorites, Login, Sell */}
@@ -236,6 +547,81 @@ export function Navigation() {
             </div>
           </div>
         )}
+
+        {/* Desktop Category Navigation */}
+        <div className="hidden md:block border-t border-gray-200 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <NavigationMenu
+              viewport={false}
+              value={menuValue}
+              onValueChange={(value) => setMenuValue(value)}
+              className="relative w-full max-w-none justify-start"
+            >
+              {menuValue && (
+                <div
+                  className="fixed inset-0 z-30 hidden md:block bg-black/30"
+                  onClick={() => setMenuValue(undefined)}
+                />
+              )}
+              <NavigationMenuList className="relative z-40 flex w-full items-center gap-4 py-2 overflow-x-auto flex-nowrap">
+                <NavigationMenuItem value="all-categories" className="flex-shrink-0">
+                  <NavigationMenuTrigger className="flex items-center gap-2 rounded-full border border-transparent bg-red-700 px-5 py-2 text-sm font-semibold text-white shadow hover:bg-red-600">
+                    ALL CATEGORIES
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent className="md:absolute md:left-0 md:right-0 md:top-full z-40 bg-white rounded-b-xl shadow-2xl border border-gray-100">
+                    <div className="w-full p-6 md:px-8">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[420px] overflow-y-auto pr-1">
+                        {categories.map((category) => (
+                          <div key={`all-${category.id}`}>
+                            <div className="flex items-center gap-2 mb-3">
+                              <span className="text-xl">{category.icon}</span>
+                              <h3 className="text-sm font-semibold text-gray-900">
+                                {category.title}
+                              </h3>
+                            </div>
+                            <ul className="space-y-1.5">
+                              {category.subcategories.map((sub) => (
+                                <li key={sub}>
+                                  <NavigationMenuLink
+                                    href={`/listings?category=${encodeURIComponent(
+                                      sub
+                                    )}`}
+                                    className="flex items-center gap-2 rounded-md px-2 py-1 text-sm text-gray-600 hover:bg-blue-50 hover:text-blue-700"
+                                  >
+                                    <ChevronRight className="w-3 h-3 text-blue-500" />
+                                    {sub}
+                                  </NavigationMenuLink>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+
+                {quickCategories.map((category) => (
+                  <NavigationMenuItem
+                    key={category.id}
+                    className="flex-1"
+                  >
+                    <NavigationMenuLink asChild>
+                      <Link
+                        href={`/listings?category=${encodeURIComponent(
+                          category.title
+                        )}`}
+                        className="flex w-full items-center justify-center rounded-full border border-transparent px-4 py-2 text-sm font-medium text-gray-700 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 transition whitespace-nowrap"
+                      >
+                        {category.shortLabel}
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                ))}
+              </NavigationMenuList>
+            </NavigationMenu>
+          </div>
+        </div>
       </div>
     </nav>
   );

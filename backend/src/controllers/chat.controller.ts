@@ -42,7 +42,7 @@ export const getChat = async (
     }
 
     // Check if user is a participant
-    if (!chat.participants.some((p) => p._id.toString() === req.user?.id)) {
+    if (!chat.participants.some((p: any) => p._id.toString() === req.user?.id)) {
       throw new CustomError("Not authorized to access this chat", 403);
     }
 
@@ -69,7 +69,7 @@ export const sendMessage = async (
     }
 
     // Check if user is a participant
-    if (!chat.participants.some((p) => p.toString() === req.user?.id)) {
+    if (!chat.participants.some((p: any) => p.toString() === req.user?.id)) {
       throw new CustomError(
         "Not authorized to send messages in this chat",
         403
@@ -115,7 +115,7 @@ export const markAsRead = async (
     }
 
     // Mark all messages from other users as read
-    chat.messages.forEach((message) => {
+    chat.messages.forEach((message: any) => {
       if (message.sender.toString() !== req.user?.id) {
         message.isRead = true;
       }

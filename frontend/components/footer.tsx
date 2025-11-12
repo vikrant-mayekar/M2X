@@ -23,17 +23,22 @@ export function Footer() {
             <h4 className="font-semibold text-foreground mb-4">Company</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition">
+                <Link href="/company" className="text-sm text-muted-foreground hover:text-primary transition">
+                  Company
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="text-sm text-muted-foreground hover:text-primary transition">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition">
+                <Link href="/contact" className="text-sm text-muted-foreground hover:text-primary transition">
                   Contact
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition">
+                <Link href="/blog" className="text-sm text-muted-foreground hover:text-primary transition">
                   Blog
                 </Link>
               </li>
@@ -45,17 +50,22 @@ export function Footer() {
             <h4 className="font-semibold text-foreground mb-4">Support</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition">
+                <Link href="/support" className="text-sm text-muted-foreground hover:text-primary transition">
+                  Support
+                </Link>
+              </li>
+              <li>
+                <Link href="/help-center" className="text-sm text-muted-foreground hover:text-primary transition">
                   Help Center
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition">
+                <Link href="/safety-tips" className="text-sm text-muted-foreground hover:text-primary transition">
                   Safety Tips
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition">
+                <Link href="/report-abuse" className="text-sm text-muted-foreground hover:text-primary transition">
                   Report Abuse
                 </Link>
               </li>
@@ -67,17 +77,17 @@ export function Footer() {
             <h4 className="font-semibold text-foreground mb-4">Legal</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition">
+                <Link href="/privacy-policy" className="text-sm text-muted-foreground hover:text-primary transition">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition">
+                <Link href="/terms-of-service" className="text-sm text-muted-foreground hover:text-primary transition">
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition">
+                <Link href="/cookie-policy" className="text-sm text-muted-foreground hover:text-primary transition">
                   Cookie Policy
                 </Link>
               </li>

@@ -108,4 +108,23 @@ export const deleteCategory = async (
   }
 };
 
+export const seedCategories = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    // Import and run the seed function
+    const { seedCategories: runSeed } = await import("../scripts/seedCategories");
+    await runSeed();
+    
+    res.status(200).json({
+      success: true,
+      message: "Categories seeded successfully!",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 

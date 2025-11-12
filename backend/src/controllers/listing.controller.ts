@@ -212,12 +212,12 @@ export const toggleFavorite = async (
       throw new CustomError("User or listing not found", 404);
     }
 
-    const favoriteIndex = user.favorites.indexOf(listing._id);
+    const favoriteIndex = user.favorites.indexOf(listing._id as any);
 
     if (favoriteIndex > -1) {
       user.favorites.splice(favoriteIndex, 1);
     } else {
-      user.favorites.push(listing._id);
+      user.favorites.push(listing._id as any);
     }
 
     await user.save();
