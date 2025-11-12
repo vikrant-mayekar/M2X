@@ -102,6 +102,39 @@ npm run lint
 pnpm lint
 ```
 
+## Analytics
+
+Vercel Analytics is available out of the box for this project. If you need to reinstall or reuse it elsewhere, follow these steps:
+
+1. **Install the package**
+
+   ```bash
+   npm i @vercel/analytics
+   # or
+   pnpm add @vercel/analytics
+   ```
+
+2. **Add the component to your layout**
+
+   ```tsx
+   import { Analytics } from "@vercel/analytics/next";
+
+   export default function RootLayout({ children }: { children: React.ReactNode }) {
+     return (
+       <html lang="en">
+         <body>
+           {children}
+           <Analytics />
+         </body>
+       </html>
+     );
+   }
+   ```
+
+3. **Deploy and visit your site**
+
+   Deploy the frontend and open the live URL. If analytics data does not appear after ~30 seconds, make sure no content blockers are active and navigate between pages to trigger events.
+
 ## Project Structure
 
 ```

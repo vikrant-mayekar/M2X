@@ -191,6 +191,41 @@ cd backend && npm run dev
 - **Backend API:** http://localhost:5000
 - **API Health Check:** http://localhost:5000/health
 
+### 7. Enable Vercel Analytics
+
+1. **Install the package**
+
+   ```bash
+   cd frontend
+   npm i @vercel/analytics
+   # or
+   pnpm add @vercel/analytics
+   ```
+
+2. **Add the React component**
+
+   Import and use the `Analytics` component in your app layout:
+
+   ```tsx
+   import { Analytics } from "@vercel/analytics/next";
+
+   export default function RootLayout({ children }: { children: React.ReactNode }) {
+     return (
+       <html lang="en">
+         <body>
+           {children}
+           <Analytics />
+         </body>
+       </html>
+     );
+   }
+   ```
+
+3. **Deploy and visit your site**
+
+   Deploy your changes and open the deployment to start collecting page views.  
+   If you do not see data after ~30 seconds, verify that analytics are not being blocked and navigate across pages to generate events.
+
 ## 📦 Building for Production
 
 ### Build Everything
