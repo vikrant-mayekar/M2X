@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { Suspense, useEffect, useMemo, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
@@ -16,7 +16,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 
-export default function ListingsPage() {
+function ListingsPageContent() {
   const searchParams = useSearchParams()
   const categoryParam = searchParams.get("category") ?? ""
   const decodedCategory = decodeURIComponent(categoryParam)
@@ -115,5 +115,13 @@ export default function ListingsPage() {
 
       <Footer />
     </main>
+  )
+}
+
+export default function ListingsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-background" />}>
+      <ListingsPageContent />
+    </Suspense>
   )
 }
